@@ -1,0 +1,14 @@
+# Ejecutables compilados
+tws/tws
+pibl/pibl
+*.exe
+*.o
+
+# Archivos de debug
+*.out
+core
+
+# Basura de editores
+.vscode/
+*.swp
+*~
