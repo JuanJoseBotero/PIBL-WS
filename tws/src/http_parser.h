@@ -16,10 +16,13 @@ typedef struct {
 } HttpRequest;
 
 
+
 int  parse_http_request(int client_fd, HttpRequest *req);
 void handle_request(int client_fd, HttpRequest *req, const char *root_dir);
 void send_200(int client_fd, const char *filepath);
 void send_400(int client_fd);
 void send_404(int client_fd);
+void send_POST_response(int client_fd);
+const char *get_content_type(const char *filepath);
 
 #endif

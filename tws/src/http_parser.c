@@ -6,6 +6,29 @@
 #include "http_parser.h"
 
 
+int read_full_request(int client_fd, char *buffer, int max_size) {
+    int total = 0;
+
+    while (total < max_size - 1) {
+        int bytes = recv(client_fd, buffer + total, max_size - total - 1, 0);
+
+        if (bytes <= 0) {
+            return -1; // error o conexión cerrada
+        }
+
+        total += bytes;
+        buffer[total] = '\0';
+
+        // condición clave HTTP
+        if (strstr(buffer, "\r\n\r\n") != NULL) {
+            return total;
+        }
+    }
+
+    return -1; // demasiado grande o incompleto
+}
+
+
 /* Estructura: Metodo SP Request-URI SP HTTP-Version CRLF */
 int parse_http_request(int client_fd, HttpRequest *req) {
     char buffer[BUFFER_SIZE];
@@ -13,14 +36,9 @@ int parse_http_request(int client_fd, HttpRequest *req) {
 
     /* Paso 1 — leer bytes crudos del socket */
     memset(buffer, 0, BUFFER_SIZE);
-    bytes_received = recv(client_fd, buffer, BUFFER_SIZE - 1, 0);
+    bytes_received = read_full_request(client_fd, buffer, BUFFER_SIZE);
     if (bytes_received <= 0) {
         return -1;
-    }
-
-    /* Paso 2 — verificar que termina en \r\n\r\n */
-    if (strstr(buffer, "\r\n\r\n") == NULL) {
-        return -1;  /* petición incompleta */
     }
 
     /* Paso 3 — parsear la request line
@@ -36,6 +54,19 @@ int parse_http_request(int client_fd, HttpRequest *req) {
         return -1;  /* responder 400 */
     }
 
+    /* Validacion de metodos */
+    if (strcmp(req->method, "GET") != 0 &&
+        strcmp(req->method, "POST") != 0 &&
+        strcmp(req->method, "HEAD") != 0) {
+        return -1;  /* método no soportado */
+    }
+
+    /* Validacion de URI */
+    if (strstr(req->path, "..") != NULL) {
+        return -1;
+    }
+
+    /* Validacion de version */
     if (strcmp(req->version, "HTTP/1.1") != 0 &&
         strcmp(req->version, "HTTP/1.0") != 0) {
         return -1;
@@ -62,6 +93,17 @@ int parse_http_request(int client_fd, HttpRequest *req) {
     return 0;
 }
 
+const char *get_content_type(const char *filepath) {
+    if (strstr(filepath, ".html")) return "text/html";
+    if (strstr(filepath, ".css"))  return "text/css";
+    if (strstr(filepath, ".js"))   return "application/javascript";
+    if (strstr(filepath, ".jpg"))  return "image/jpeg";
+    if (strstr(filepath, ".jpeg")) return "image/jpeg";
+    if (strstr(filepath, ".png"))  return "image/png";
+    if (strstr(filepath, ".gif"))  return "image/gif";
+    if (strstr(filepath, ".ico"))  return "image/x-icon";
+    return "application/octet-stream";
+}
 
 void send_400(int client_fd) {
     char *body =
@@ -125,10 +167,11 @@ void send_200(int client_fd, const char *filepath) {
     /* Construir y enviar headers */
     snprintf(headers, sizeof(headers),
         "HTTP/1.1 200 OK\r\n"
-        "Content-Type: text/html\r\n"
+        "Content-Type: %s\r\n"
         "Content-Length: %ld\r\n"
         "Connection: close\r\n"
         "\r\n",
+        get_content_type(filepath),
         file_size);
 
     send(client_fd, headers, strlen(headers), 0);
@@ -193,10 +236,11 @@ void handle_request(int client_fd, HttpRequest *req, const char *root_dir) {
         char headers[256];
         snprintf(headers, sizeof(headers),
             "HTTP/1.1 200 OK\r\n"
-            "Content-Type: text/html\r\n"
+            "Content-Type: %s\r\n"
             "Content-Length: %ld\r\n"
             "Connection: close\r\n"
             "\r\n",
+            get_content_type(filepath),
             file_size);
         send(client_fd, headers, strlen(headers), 0);
         return;
