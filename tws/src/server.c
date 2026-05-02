@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include "server.h"
 #include "http_parser.h"
+#include "logger.h"
 
 #define BACKLOG 10
 
@@ -50,11 +51,43 @@ int create_server_socket(int port) {
     return server_fd;
 }
 
+/* Un hilo por cliente */
+void *handle_client(void *arg) {
+    /* Recuperar los argumentos (lo unico que aceptan los hilos, punteros genericos) */
+    /* Se le pasa un puntero a la estructura ClientArgs */
+    ClientArgs *args = (ClientArgs *)arg;
+    int client_fd    = args->client_fd;
+    char root_dir[256];
+    char client_ip[INET_ADDRSTRLEN];
+
+    /* Copia el string a la variable local */
+    strncpy(root_dir, args->root_dir, sizeof(root_dir) - 1);
+    strncpy(client_ip,  args->client_ip,  sizeof(client_ip)  - 1);
+    /* liberar memoria — quien la pidió la libera, para no leer informacion que no es*/
+    free(args);
+
+    /* Basicamente le dice al so cuando este hilo termine, libera sus recursos autom. */
+    pthread_detach(pthread_self());
+
+    /* Parsear y responder */
+    HttpRequest req;
+    memset(&req, 0, sizeof(req));
+
+    if (parse_http_request(client_fd, &req) == 0) {
+        handle_request(client_fd, &req, root_dir, client_ip);
+    } else {
+        send_400(client_fd);
+    }
+
+    close(client_fd);
+    return NULL;
+}
 
 void run_server(int server_fd, const char *root_dir) {
     struct sockaddr_in client_addr;
     socklen_t client_len = sizeof(client_addr);
     int client_fd;
+    pthread_t thread_id;
 
     while (1) {
         /* Se llena el struct con la información del cliente */
@@ -67,20 +100,30 @@ void run_server(int server_fd, const char *root_dir) {
             continue;
         }
 
-        printf("Cliente conectado: %s\n",
-               inet_ntoa(client_addr.sin_addr));
-
-        /* Crear estructura para el resultado del parser */
-        HttpRequest req;
-
-        memset(&req, 0, sizeof(req));
-
-        if (parse_http_request(client_fd, &req) == 0) {
-            handle_request(client_fd, &req, root_dir);
-        } else {
-            send_400(client_fd);
+        /* Calcular tamaño del struct para liberar este tañamo en el heap
+        esto porque persiste hasta que explicitamente se libera y no como 
+        con stack que se libera con una iteracion */
+        ClientArgs *args = malloc(sizeof(ClientArgs));
+        /* Si no hay memoria disponible (raro) */
+        if (args == NULL) {
+            perror("malloc falló");
+            close(client_fd);
+            continue;
         }
+        /* Copiar y llenar el struct para leer la peticion */
+        args->client_fd = client_fd;
+        strncpy(args->root_dir, root_dir, sizeof(args->root_dir) - 1);
 
-        close(client_fd);
+        /* Convertir IP binaria a texto y guardarla en args */
+        /* INternet Network Presentation*/
+        inet_ntop(AF_INET, &client_addr.sin_addr, args->client_ip, sizeof(args->client_ip));
+
+        /* Crear hilo — el loop principal sigue inmediatamente */
+        if (pthread_create(&thread_id, NULL, handle_client, args) != 0) {
+            perror("pthread_create() falló");
+            free(args);
+            close(client_fd);
+            continue;
+        }
     }
 }
