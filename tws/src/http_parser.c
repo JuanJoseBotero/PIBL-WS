@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include "http_parser.h"
-
+#include "logger.h"
 
 int read_full_request(int client_fd, char *buffer, int max_size) {
     int total = 0;
@@ -207,7 +207,7 @@ void send_POST_response(int client_fd) {
 
 
 /* Decide qué responder según método y path */
-void handle_request(int client_fd, HttpRequest *req, const char *root_dir) {
+void handle_request(int client_fd, HttpRequest *req, const char *root_dir, const char *client_ip) {
     char filepath[512];
 
     /* Construir ruta completa del archivo */
@@ -219,7 +219,15 @@ void handle_request(int client_fd, HttpRequest *req, const char *root_dir) {
     }
 
     if (strcmp(req->method, "GET") == 0) {
+        FILE *test = fopen(filepath, "rb");
+        if (test == NULL) {
+            send_404(client_fd);
+            log_request(client_ip, "GET", req->path, 404);
+            return;
+        }
+        fclose(test);
         send_200(client_fd, filepath);
+        log_request(client_ip, "GET", req->path, 200);
         return;
     }
 
@@ -227,6 +235,7 @@ void handle_request(int client_fd, HttpRequest *req, const char *root_dir) {
         FILE *file = fopen(filepath, "rb");
         if (file == NULL) {
             send_404(client_fd);
+            log_request(client_ip, "HEAD", req->path, 404);
             return;
         }
         fseek(file, 0, SEEK_END);
@@ -243,6 +252,7 @@ void handle_request(int client_fd, HttpRequest *req, const char *root_dir) {
             get_content_type(filepath),
             file_size);
         send(client_fd, headers, strlen(headers), 0);
+        log_request(client_ip, "HEAD", req->path, 200);
         return;
     }
 
@@ -261,9 +271,11 @@ void handle_request(int client_fd, HttpRequest *req, const char *root_dir) {
         }
 
         send_POST_response(client_fd);
+        log_request(client_ip, "POST", req->path, 200);
         return;
     }
 
     /* Método no soportado */
     send_400(client_fd);
+    log_request(client_ip, req->method, req->path, 400);
 }
