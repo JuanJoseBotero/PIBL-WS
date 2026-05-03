@@ -1,0 +1,426 @@
+
+[2026-05-03 16:29:35] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 16:29:35] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 200
+  Bytes   : 133
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 16:30:37] ── REQUEST ──────────────────────────
+  GET /h
+  Raw:
+GET /h HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+
+[2026-05-03 16:30:45] ── REQUEST ──────────────────────────
+  GET /h
+  Raw:
+GET /h HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+
+[2026-05-03 16:30:47] ── REQUEST ──────────────────────────
+  GET /h
+  Raw:
+GET /h HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 16:30:47] ── RESPONSE ─────────────────────────
+  Path    : /h
+  Status  : 404
+  Bytes   : 138
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 17:03:09] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 17:03:09] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 200
+  Bytes   : 133
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 17:03:16] ── REQUEST ──────────────────────────
+  GET /h
+  Raw:
+GET /h HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+
+[2026-05-03 17:03:22] ── REQUEST ──────────────────────────
+  GET /hola
+  Raw:
+GET /hola HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Microsoft Edge";v="147", "Not.A/Brand";v="8", "Chromium";v="147"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5,es-CO;q=0.4
+Cookie: _xsrf=2|85ee3a6b|19447e3086dcb6bc88a5693e6a71482f|1776452965; username-localhost-8888="2|1:0|10:1776655502|23:username-localhost-8888|196:eyJ1c2VybmFtZSI6ICI2M2E0OTI2YmRkMmM0OTE2OTNmOWU1NTBmYzQ2MmVhOSIsICJuYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiZGlzcGxheV9uYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiaW5pdGlhbHMiOiAiQUUiLCAiY29sb3IiOiBudWxsfQ==|f40df08c0da39ab4c87626b3c2e8e3cbe6f5e5e0427eceff7328f861716486e6"
+
+
+
+[2026-05-03 17:03:26] ── REQUEST ──────────────────────────
+  GET /hola
+  Raw:
+GET /hola HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Microsoft Edge";v="147", "Not.A/Brand";v="8", "Chromium";v="147"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5,es-CO;q=0.4
+Cookie: _xsrf=2|85ee3a6b|19447e3086dcb6bc88a5693e6a71482f|1776452965; username-localhost-8888="2|1:0|10:1776655502|23:username-localhost-8888|196:eyJ1c2VybmFtZSI6ICI2M2E0OTI2YmRkMmM0OTE2OTNmOWU1NTBmYzQ2MmVhOSIsICJuYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiZGlzcGxheV9uYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiaW5pdGlhbHMiOiAiQUUiLCAiY29sb3IiOiBudWxsfQ==|f40df08c0da39ab4c87626b3c2e8e3cbe6f5e5e0427eceff7328f861716486e6"
+
+
+[2026-05-03 17:03:26] ── RESPONSE ─────────────────────────
+  Path    : /hola
+  Status  : 404
+  Bytes   : 138
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 17:03:27] ── REQUEST ──────────────────────────
+  GET /hola
+  Raw:
+GET /hola HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Microsoft Edge";v="147", "Not.A/Brand";v="8", "Chromium";v="147"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5,es-CO;q=0.4
+Cookie: _xsrf=2|85ee3a6b|19447e3086dcb6bc88a5693e6a71482f|1776452965; username-localhost-8888="2|1:0|10:1776655502|23:username-localhost-8888|196:eyJ1c2VybmFtZSI6ICI2M2E0OTI2YmRkMmM0OTE2OTNmOWU1NTBmYzQ2MmVhOSIsICJuYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiZGlzcGxheV9uYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiaW5pdGlhbHMiOiAiQUUiLCAiY29sb3IiOiBudWxsfQ==|f40df08c0da39ab4c87626b3c2e8e3cbe6f5e5e0427eceff7328f861716486e6"
+
+
+
+[2026-05-03 17:03:29] ── REQUEST ──────────────────────────
+  GET /hola
+  Raw:
+GET /hola HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Microsoft Edge";v="147", "Not.A/Brand";v="8", "Chromium";v="147"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5,es-CO;q=0.4
+Cookie: _xsrf=2|85ee3a6b|19447e3086dcb6bc88a5693e6a71482f|1776452965; username-localhost-8888="2|1:0|10:1776655502|23:username-localhost-8888|196:eyJ1c2VybmFtZSI6ICI2M2E0OTI2YmRkMmM0OTE2OTNmOWU1NTBmYzQ2MmVhOSIsICJuYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiZGlzcGxheV9uYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiaW5pdGlhbHMiOiAiQUUiLCAiY29sb3IiOiBudWxsfQ==|f40df08c0da39ab4c87626b3c2e8e3cbe6f5e5e0427eceff7328f861716486e6"
+
+
+
+[2026-05-03 17:03:33] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Microsoft Edge";v="147", "Not.A/Brand";v="8", "Chromium";v="147"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5,es-CO;q=0.4
+Cookie: _xsrf=2|85ee3a6b|19447e3086dcb6bc88a5693e6a71482f|1776452965; username-localhost-8888="2|1:0|10:1776655502|23:username-localhost-8888|196:eyJ1c2VybmFtZSI6ICI2M2E0OTI2YmRkMmM0OTE2OTNmOWU1NTBmYzQ2MmVhOSIsICJuYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiZGlzcGxheV9uYW1lIjogIkFub255bW91cyBFaXJlbmUiLCAiaW5pdGlhbHMiOiAiQUUiLCAiY29sb3IiOiBudWxsfQ==|f40df08c0da39ab4c87626b3c2e8e3cbe6f5e5e0427eceff7328f861716486e6"
+
+
+
+[2026-05-03 17:23:35] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+
+[2026-05-03 17:23:35] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 17:23:35] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 200
+  Bytes   : 133
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 17:23:35] ── REQUEST ──────────────────────────
+  GET /hola
+  Raw:
+GET /hola HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+
+[2026-05-03 17:26:14] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+
+[2026-05-03 17:26:14] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 17:26:14] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 502
+  Bytes   : 171
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+[2026-05-03 17:26:14] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 200
+  Bytes   : 133
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 17:26:14] ── REQUEST ──────────────────────────
+  GET /hola
+  Raw:
+GET /hola HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 17:26:14] ── RESPONSE ─────────────────────────
+  Path    : /hola
+  Status  : 502
+  Bytes   : 171
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 18:25:32] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 18:25:32] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 502
+  Bytes   : 171
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 18:25:32] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 18:25:32] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 200
+  Bytes   : 133
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 18:25:32] ── REQUEST ──────────────────────────
+  GET /hola
+  Raw:
+GET /hola HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 18:25:32] ── RESPONSE ─────────────────────────
+  Path    : /hola
+  Status  : 502
+  Bytes   : 171
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 18:28:14] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 18:28:14] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 502
+  Bytes   : 171
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 18:28:14] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 18:28:14] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 200
+  Bytes   : 133
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 18:28:14] ── REQUEST ──────────────────────────
+  GET /hola
+  Raw:
+GET /hola HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 18:28:14] ── RESPONSE ─────────────────────────
+  Path    : /hola
+  Status  : 502
+  Bytes   : 171
+  Fuente  : SERVIDOR
+─────────────────────────────────────────
+
+[2026-05-03 18:28:16] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 18:28:16] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 200
+  Bytes   : 133
+  Fuente  : CACHE
+─────────────────────────────────────────
+
+[2026-05-03 18:28:16] ── REQUEST ──────────────────────────
+  GET /
+  Raw:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 18:28:16] ── RESPONSE ─────────────────────────
+  Path    : /
+  Status  : 200
+  Bytes   : 133
+  Fuente  : CACHE
+─────────────────────────────────────────
+
+[2026-05-03 18:28:16] ── REQUEST ──────────────────────────
+  GET /hola
+  Raw:
+GET /hola HTTP/1.1
+Host: localhost:8080
+User-Agent: curl/8.5.0
+Accept: */*
+
+
+[2026-05-03 18:28:16] ── RESPONSE ─────────────────────────
+  Path    : /hola
+  Status  : 404
+  Bytes   : 138
+  Fuente  : SERVIDOR
+─────────────────────────────────────────

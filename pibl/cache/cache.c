@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <pthread.h>
 
 static int ttl_global = 60; // Valor por defecto, se sobreescribe con cache_init()
+static pthread_mutex_t cache_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // Inicializa la cache creando el directorio de almacenamiento y configurando el TTL
 void cache_init(int ttl_segundos) {
@@ -38,13 +40,16 @@ Esta función lo que hace es:
 4. Si el archivo es válido (existe y no está expirado), abrirlo, leer su contenido en el buffer, cerrar el archivo y retornar cache HIT
 */
 int cache_get(const char *key, char *buffer, int *size) {
+    pthread_mutex_lock(&cache_mutex);
+
     char filepath[512];
     key_to_filepath(key, filepath);
 
     // Verificar si el archivo existe en disco
     struct stat file_metadata;
-    if (stat(filepath, &file_metadata) != 0) { // stat(filepath, &file_metadata), filepath es el nombre del archivo a verificar, file_metadata es una variable donde se guarda metadata del archivo (tamaño, fecha de modificación, etc). 
+    if (stat(filepath, &file_metadata) != 0) { // stat(filepath, &file_metadata), filepath es el nombre del archivo a verificar, file_metadata es una variable donde se guarda metadata del archivo (tamaño, fecha de modificación, etc).
         printf("[CACHE] MISS (no existe): %s\n", key);
+        pthread_mutex_unlock(&cache_mutex);
         return 0;
     }
 
@@ -56,6 +61,7 @@ int cache_get(const char *key, char *buffer, int *size) {
     if (edad > ttl_global) {
         remove(filepath); // Expirado → eliminar del disco
         printf("[CACHE] MISS (expirado hace %.0fs): %s\n", edad - ttl_global, key);
+        pthread_mutex_unlock(&cache_mutex);
         return 0;
     }
 
@@ -63,6 +69,7 @@ int cache_get(const char *key, char *buffer, int *size) {
     FILE *f = fopen(filepath, "rb");
     if (!f) {
         printf("[CACHE] MISS (error al abrir): %s\n", key);
+        pthread_mutex_unlock(&cache_mutex);
         return 0;
     }
 
@@ -70,6 +77,7 @@ int cache_get(const char *key, char *buffer, int *size) {
     fclose(f);
 
     printf("[CACHE] HIT (edad: %.0fs / TTL: %ds): %s\n", edad, ttl_global, key);
+    pthread_mutex_unlock(&cache_mutex);
     return 1;
 }
 
@@ -83,12 +91,15 @@ Esta funcion basicamente lo que hace es:
 5. Imprimir un mensaje indicando que se ha guardado en disco, mostrando el tamaño de los datos, la clave original y el filepath donde se guardó.
 */
 void cache_set(const char *key, const char *data, int size) {
+    pthread_mutex_lock(&cache_mutex);
+
     char filepath[512];
     key_to_filepath(key, filepath);
 
     FILE *f = fopen(filepath, "wb");
     if (!f) {
         printf("[CACHE] ERROR al guardar: %s\n", key);
+        pthread_mutex_unlock(&cache_mutex);
         return;
     }
 
@@ -96,4 +107,5 @@ void cache_set(const char *key, const char *data, int size) {
     fclose(f);
 
     printf("[CACHE] Guardado en disco (%d bytes): %s → %s\n", size, key, filepath);
+    pthread_mutex_unlock(&cache_mutex);
 }
