@@ -126,7 +126,7 @@ void send_400(int client_fd) {
 }
 
 
-void send_404(int client_fd) {
+void send_404(int client_fd, int send_body) {
     char *body =
         "<html><body><h1>404 Not Found</h1></body></html>";
 
@@ -140,13 +140,13 @@ void send_404(int client_fd) {
         "\r\n"
         "%s",
         strlen(body),
-        body);
+        send_body ? body : "");
 
     send(client_fd, response, strlen(response), 0);
 }
 
 
-void send_200(int client_fd, const char *filepath) {
+void send_200(int client_fd, const char *filepath, int send_body) {
     FILE *file;
     char buffer[BUFFER_SIZE];
     long file_size;
@@ -155,7 +155,7 @@ void send_200(int client_fd, const char *filepath) {
     /* Abrir el archivo */
     file = fopen(filepath, "rb");
     if (file == NULL) {
-        send_404(client_fd);
+        send_404(client_fd, send_body);
         return;
     }
 
@@ -177,9 +177,11 @@ void send_200(int client_fd, const char *filepath) {
     send(client_fd, headers, strlen(headers), 0);
 
     /* Enviar el contenido del archivo en chunks */
-    size_t bytes_read;
-    while ((bytes_read = fread(buffer, 1, BUFFER_SIZE, file)) > 0) {
-        send(client_fd, buffer, bytes_read, 0);
+    if (send_body) {
+        size_t bytes_read;
+        while ((bytes_read = fread(buffer, 1, BUFFER_SIZE, file)) > 0) {
+            send(client_fd, buffer, bytes_read, 0);
+        }
     }
 
     fclose(file);
@@ -208,51 +210,30 @@ void send_POST_response(int client_fd) {
 
 /* Decide qué responder según método y path */
 void handle_request(int client_fd, HttpRequest *req, const char *root_dir, const char *client_ip) {
-    char filepath[512];
+    char filepath[1024];
+
+    /* Detectar HEAD una sola vez */
+    int is_head = (strcmp(req->method, "HEAD") == 0);
 
     /* Construir ruta completa del archivo */
     snprintf(filepath, sizeof(filepath), "%s%s", root_dir, req->path);
 
-    /* Si piden la raíz, retorna index.html */
-    if (strcmp(req->path, "/") == 0) {
-        snprintf(filepath, sizeof(filepath), "%s/index.html", root_dir);
+    /* Si el path termina en / buscar index.html en ese directorio */
+    if (req->path[strlen(req->path) - 1] == '/') {
+        snprintf(filepath, sizeof(filepath), "%s%.500sindex.html",
+             root_dir, req->path);
     }
 
-    if (strcmp(req->method, "GET") == 0) {
+    if (strcmp(req->method, "GET") == 0 || is_head) {
         FILE *test = fopen(filepath, "rb");
         if (test == NULL) {
-            send_404(client_fd);
-            log_request(client_ip, "GET", req->path, 404);
+            send_404(client_fd, !is_head);
+            log_request(client_ip, req->method, req->path, 404);
             return;
         }
         fclose(test);
-        send_200(client_fd, filepath);
-        log_request(client_ip, "GET", req->path, 200);
-        return;
-    }
-
-    if (strcmp(req->method, "HEAD") == 0) {
-        FILE *file = fopen(filepath, "rb");
-        if (file == NULL) {
-            send_404(client_fd);
-            log_request(client_ip, "HEAD", req->path, 404);
-            return;
-        }
-        fseek(file, 0, SEEK_END);
-        long file_size = ftell(file);
-        fclose(file);
-
-        char headers[256];
-        snprintf(headers, sizeof(headers),
-            "HTTP/1.1 200 OK\r\n"
-            "Content-Type: %s\r\n"
-            "Content-Length: %ld\r\n"
-            "Connection: close\r\n"
-            "\r\n",
-            get_content_type(filepath),
-            file_size);
-        send(client_fd, headers, strlen(headers), 0);
-        log_request(client_ip, "HEAD", req->path, 200);
+        send_200(client_fd, filepath, !is_head);
+        log_request(client_ip, req->method, req->path, 200);
         return;
     }
 
@@ -271,7 +252,7 @@ void handle_request(int client_fd, HttpRequest *req, const char *root_dir, const
         }
 
         send_POST_response(client_fd);
-        log_request(client_ip, "POST", req->path, 200);
+        log_request(client_ip, req->method, req->path, 200);
         return;
     }
 
