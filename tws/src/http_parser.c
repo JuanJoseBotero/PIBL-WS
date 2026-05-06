@@ -228,12 +228,12 @@ void handle_request(int client_fd, HttpRequest *req, const char *root_dir, const
         FILE *test = fopen(filepath, "rb");
         if (test == NULL) {
             send_404(client_fd, !is_head);
-            log_request(client_ip, "GET", req->path, 404);
+            log_request(client_ip, req->method, req->path, 404);
             return;
         }
         fclose(test);
         send_200(client_fd, filepath, !is_head);
-        log_request(client_ip, "GET", req->path, 200);
+        log_request(client_ip, req->method, req->path, 200);
         return;
     }
 
@@ -252,7 +252,7 @@ void handle_request(int client_fd, HttpRequest *req, const char *root_dir, const
         }
 
         send_POST_response(client_fd);
-        log_request(client_ip, "POST", req->path, 200);
+        log_request(client_ip, req->method, req->path, 200);
         return;
     }
 
