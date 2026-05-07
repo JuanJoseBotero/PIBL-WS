@@ -8,7 +8,8 @@ Este proyecto implementa un servidor proxy inverso concurrente en C que incluye:
 
 El proxy recibe solicitudes HTTP de clientes, decide si responder desde cache o reenviar la petición a un servidor backend, y devuelve la respuesta al cliente.
 
-## Acá pongo algun diagrama y explico como es el flujo del pibl
+## Diagrama de flujo de funcionamiento
+![alt text](DiagramaPIBL.png)
 
 ## Estructura del proyecto
 
