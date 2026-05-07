@@ -12,7 +12,7 @@
 | Componente | Descripción | Documentación |
 |------------|-------------|---------------|
 | PIBL | Proxy Inverso + Balanceador de Carga | [pibl/README.md](./docs/PIBL.md) |
-| TWS | Telematics Web Server | [tws/README.md](./tws/README.md) |
+| TWS | Telematics Web Server | [tws/README.md](./docs/TWS.md) |
 | AWS | Infraestructura y despliegue | [aws/README.md](./aws/README.md) |
 
 ---
