@@ -11,6 +11,8 @@ El sistema fue desplegado en AWS usando 4 instancias EC2 en la región us-east-1
 
 Solo el PIBL tiene IP pública. Los backends únicamente son accesibles desde la red privada, específicamente desde el PIBL.
 
+![alt text](PIBL-WS.jpg)
+
 ---
 
 ## Configuración de Red y Seguridad
