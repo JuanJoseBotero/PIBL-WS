@@ -12,6 +12,9 @@
 ## Diagrama de Flujo (Mermaid)
 ![alt text](image-1.png)
 
+## Diagrama de Infraestructura AWS
+![alt text](PIBL-WS.jpg)
+
 ## Prerrequisitos
 
 - Cuenta AWS activa con permisos EC2
